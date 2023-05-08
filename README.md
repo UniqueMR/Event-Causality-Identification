@@ -2,7 +2,7 @@
 
 ![Event-Causality-Identification/all.png at main · UniqueMR/Event-Causality-Identification (github.com)](https://github.com/UniqueMR/Event-Causality-Identification/blob/main/Architecture-Diagram/all.png)
 
-LSTM and GAT are used to improve the performance of initial event causality identification model. 
+LSTM and GAT are used to improve the performance of the initial event causality identification model. 
 
 All of the three models use Roberta as the pretrained tokenizer to obtain the word embeddings of the inital argument. The base model only use event trigger words to obtain a event-based relation representation. Then it use a MLP to predict whether the argument has a causal relation based on the representation.
 
