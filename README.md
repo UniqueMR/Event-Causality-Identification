@@ -33,15 +33,16 @@ There are 3 options for available models: base, lstm, and gat. You should specif
 ## Results
 
 The best epoch of all networks are shown as followed. The result is a conclusion of both intra-sentence and cross-sentence performance when the weight of event branch and sentence branch are 0.9 and 0.1, respectively. The network modified with LSTM achieved the best precision rate, while the network modified with GAT achieved the best recall and F1 rate.
-
+<div align="center">
 | Method |    Precision    |     Recall      |       F1        |
 | :----: | :-------------: | :-------------: | :-------------: |
 |  Base  |   0.328928047   |   0.482695811   |   0.400324149   |
 |  LSTM  | **0.356763926** |   0.489981785   |   0.412893323   |
 |  GAT   |   0.347107438   | **0.535519126** | **0.421203438** |
+</div>
 
 Parameter sweep is executed on GAT method to find out the best weight distribution for event branch and sentence branch. The overall performance achieved the best when the weight of event branch is set to 0.85. 
-
+<div align="center">
 | Event Branch Weight |    Precision    |     Recall      |       F1        |
 | :-----------------: | :-------------: | :-------------: | :-------------: |
 |         0.8         | **0.371812081** |   0.504553734   |   0.42812983    |
@@ -49,4 +50,5 @@ Parameter sweep is executed on GAT method to find out the best weight distributi
 |         0.9         |   0.347107438   |   0.535519126   |   0.421203438   |
 |        0.95         |   0.352417303   |   0.504553734   |   0.414981273   |
 |          1          |   0.360583942   |   0.449908925   |   0.400324149   |
+</div>
 
