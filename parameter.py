@@ -14,6 +14,7 @@ def parse_args():
     parser.add_argument('--num_epoch',        default=10,               type=int,     help='number of total epochs to run')
     parser.add_argument('--lr',               default=5e-6,             type=float,   help='initial learning rate')
     parser.add_argument('--log',              default='./out/',         type=str,     help='Log result file name')
-    
+    parser.add_argument('--model',            default='base',           type=str,     help='select model for training, evaluation and testing')
+
     args = parser.parse_args()
     return args

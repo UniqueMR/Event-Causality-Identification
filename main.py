@@ -11,7 +11,7 @@ from datetime import datetime
 from sklearn.metrics import f1_score, precision_score, recall_score
 from torch.utils.tensorboard import SummaryWriter
 from load_data import load_data
-from model import Base,modified,modified_with_lstm, GAT, modified_with_attention, modified_with_attention_mask
+from model import Base,modified_with_lstm, modified_with_attention_mask
 from tokenizer import get_batch
 from parameter import parse_args
 args = parse_args()  # load parameters
@@ -117,8 +117,16 @@ def calculate(all_label_t, all_predt_t, all_clabel_t, epoch):
     return tpi + tpc, pi + pc, li + lc, intra, cross
 
 # ---------- network ----------
-# net = Base(args).to(device)
-net = modified_with_attention_mask(args).to(device)
+if args.model == 'base':
+    net = Base(args).to(device)
+elif args.model == 'lstm':
+    net = modified_with_lstm(args).to(device)
+elif args.model == 'gat':
+    net = modified_with_attention_mask(args).to(device)
+else:
+    print('model name error!')
+    breakpoint()
+
 optimizer = torch.optim.AdamW(net.parameters(), lr=args.lr)
 cross_entropy = nn.CrossEntropyLoss().to(device)
 
@@ -226,7 +234,6 @@ for epoch in range(args.num_epoch):
     progress.close()
 
 # ----------  test  ----------    
-    # all_indices = torch.arange(1, test_size).split(args.batch_size)
     all_indices = torch.arange(test_size).split(args.batch_size)
     all_label_t = []
     all_predt_t = []
@@ -276,21 +283,6 @@ for epoch in range(args.num_epoch):
     printlog("\t\tprecision score: {}".format(dev_intra_cross['p']))
     printlog("\t\trecall score: {}".format(dev_intra_cross['r']))
     printlog("\t\tf1 score: {}".format(dev_intra_cross['f1']))
-
-    # printlog("TEST:")
-    # t_1, t_2, t_3, test_intra, test_cross = calculate(all_label_t, all_predt_t, all_clabel_t, epoch)
-    # test_intra_cross = {
-    #     'epoch': epoch,
-    #     'p': precision_score(all_label_t, all_predt_t, average=None)[1],
-    #     'r': recall_score(all_label_t, all_predt_t, average=None)[1],
-    #     'f1': f1_score(all_label_t, all_predt_t, average=None)[1]
-    # }
-    # printlog('\tINTRA + CROSS:')
-    # printlog("\t\tTest Acc={:.4f}".format(acc / test_size))
-    # printlog("\t\tTP: {}, TP+FP: {}, TP+FN: {}".format(t_1, t_2, t_3))
-    # printlog("\t\tprecision score: {}".format(test_intra_cross['p']))
-    # printlog("\t\trecall score: {}".format(test_intra_cross['r']))
-    # printlog("\t\tf1 score: {}".format(test_intra_cross['f1']))
 
     breakout += 1
 
